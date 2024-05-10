@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/HashTableVisualization/HashTableVisualization/FormShipCollection.cs
+/HashTableVisualization/HashTableVisualization/FormShipCollection.Designer.cs
+/HashTableVisualization/HashTableVisualization/FormShipCollection.resx
