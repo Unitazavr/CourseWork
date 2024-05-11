@@ -1,103 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace HashTableVisualization;
 
-public class StateManager<TValue>
+internal class StateManager<TValue>
 {
-    private List<HashTableState<TValue>> states;
-    private int currentIndex;
-    private readonly string saveFileKey = "States File";
+    private HashTable<TValue> hashTable;
+    private StateStorage<TValue> stateStorage;
 
-    public StateManager()
+    public StateManager(HashTable<TValue> table, int capacity = 16)
     {
-        states = new List<HashTableState<TValue>>();
-        currentIndex = -1;
+        hashTable = table;
+        stateStorage = new StateStorage<TValue>();
+        stateStorage.AddState(hashTable);
     }
 
-    internal void AddState(HashTableState<TValue> newState)
+    public void Insert(string key, TValue value)
     {
-        states.Add(newState);
-        currentIndex = states.Count - 1;
+        hashTable.Insert(key, value);
+        stateStorage.AddState(hashTable);
     }
 
-    internal HashTableState<TValue>? GetCurrentState()
+    public TValue Find(string key)
     {
-        if (currentIndex >= 0 && currentIndex < states.Count)
-            return states[currentIndex];
-        return null;
+        TValue? value = hashTable.Find(key).Value;
+        stateStorage.AddState(hashTable);
+        return value;
+    }
+    public bool Remove(string key)
+    {
+        bool result = hashTable.Remove(key);
+        stateStorage.AddState(hashTable);
+        return result;
     }
 
-    internal HashTableState<TValue>? Next()
+    public StateStorage<TValue> GetStateStorage()
     {
-        if (currentIndex < states.Count - 1)
-            currentIndex++;
-        return GetCurrentState();
+        return stateStorage;
     }
 
-    internal HashTableState<TValue>? Previous()
+    public void ResetStateManager()
     {
-        if (currentIndex > 0)
-            currentIndex--;
-        return GetCurrentState();
+        stateStorage = new StateStorage<TValue>();
     }
 
-    public void Reset()
+    public void LoadStateFromFile(string filePath)
     {
-        currentIndex = 0;
+        stateStorage.LoadFromFile(filePath);
     }
 
-    public void SaveToFile(string filePath)
+    public void SaveStateToFile(string filePath)
     {
-        if (!File.Exists(filePath))
-        {
-            File.Create(filePath);
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine(saveFileKey);
-        for (int i = 0; i < states.Count; i++)
-        {
-            sb.AppendLine(JsonSerializer.Serialize(states[i]));
-        }
-        using (StreamWriter streamWriter = new StreamWriter(filePath, false, Encoding.UTF8))
-        {
-            streamWriter.Write(sb.ToString());
-        }
-    }
-
-    public bool LoadFromFile(string filePath)
-    {
-        if (!File.Exists(filePath))
-        {
-            return false;
-        }
-
-        states.Clear();
-        currentIndex = -1;
-
-        using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8))
-        {
-            if (streamReader.ReadLine() != saveFileKey)
-            {
-                return false;
-            }
-
-            string? data = streamReader.ReadLine();
-            while (data != null)
-            {
-                HashTableState<TValue>? tableState = JsonSerializer.Deserialize<HashTableState<TValue>>(data);
-                if (tableState != null)
-                {
-                    states.Add(tableState);
-                }
-                data = streamReader.ReadLine();
-            }
-        }
-        return true;
+        stateStorage.SaveToFile(filePath);
     }
 }
