@@ -24,10 +24,9 @@ internal class StateManager<TValue>
         stateStorage.AddState(hashTable);
     }
 
-    public TValue Find(string key)
+    public Node<TValue>? Find(string key)
     {
-        TValue? value = hashTable.Find(key).Value;
-        stateStorage.AddState(hashTable);
+        Node<TValue>? value = hashTable.Find(key);
         return value;
     }
     public bool Remove(string key)
