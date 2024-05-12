@@ -52,45 +52,38 @@ public partial class HashTableForm : Form
 
     private void btnAdd_Click(object sender, EventArgs e)
     {
-        using (var inputForm = new InputForm())
+        using (var inputForm = new InputForm(true))
         {
-            if (inputForm.ShowDialog() == DialogResult.OK)
-            {
-                manager.Insert(inputForm.Key, inputForm.Value);
+            inputForm.DataSubmitted += (key, value) => {
+                HashTable.Insert(key, value);
                 UpdateVisualization();
-            }
+            };
+            inputForm.ShowDialog();
         }
     }
 
     private void btnFind_Click(object sender, EventArgs e)
     {
-        using (var inputForm = new InputForm("Enter Key"))
+        using (var inputForm = new InputForm(false))
         {
-            if (inputForm.ShowDialog() == DialogResult.OK)
-            {
-                Node<int> node = manager.Find(inputForm.Key);
-                if (node.Equals(null))
-                {
-                    MessageBox.Show($"Value didn't found", "Find Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show($"Value found: {node.Value}", "Find Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    UpdateVisualization();
-                }
-            }
+            inputForm.DataSubmitted += (key, value) => {
+                var result = HashTable.Find(key);
+                MessageBox.Show(result != null ? $"Value found: {result}" : "Value not found", "Find Result");
+                UpdateVisualization();
+            };
+            inputForm.ShowDialog();
         }
     }
 
     private void btnDelete_Click(object sender, EventArgs e)
     {
-        using (var inputForm = new InputForm("Enter Key"))
+        using (var inputForm = new InputForm())
         {
-            if (inputForm.ShowDialog() == DialogResult.OK)
-            {
-                manager.Remove(inputForm.Key);
+            inputForm.DataSubmitted += (key, value) => {
+                HashTable.Remove(key);
                 UpdateVisualization();
-            }
+            };
+            inputForm.ShowDialog();
         }
     }
 
