@@ -8,34 +8,39 @@ namespace HashTableVisualization;
 
 internal class HashTableVizualizer<TValue>
 {
-    private const int NodeWidth = 40;
-    private const int NodeHeight = 30;
-    private const int VerticalSpacing = 60;
-    private const int HorizontalSpacing = 80;
-    private const int StartX = 10;
-    private const int StartY = 40;
+    private const int NodeWidth = 75;
+    private const int NodeHeight = 75;
+    private const int VerticalSpacing = 100;
+    private const int HorizontalSpacing = 200;
+    private const int StartX = 50;
+    private const int StartY = 30;
 
-    public void DrawHashTable(HashTableState<TValue> state, Graphics graphics)
+    public Bitmap? DrawHashTable(HashTableState<TValue> state, Bitmap bitmap)
     {
-        if (state == null || graphics == null) return;
-
+        Graphics graphics = Graphics.FromImage(bitmap);
+        if (state == null) return null;
         int x = StartX;
         int y = StartY;
 
         for (int i = 0; i < state.Capacity; i++)
         {
+            if (x + NodeWidth > bitmap.Width)
+            {
+                y += 500;
+                x = StartX;
+            }
             graphics.DrawString($"Bucket {i}", SystemFonts.DefaultFont, Brushes.Black, x - 5, y - 30);
-            graphics.DrawRectangle(Pens.Black, x, y - 20, NodeWidth, NodeHeight + 10);
-
+            graphics.DrawRectangle(Pens.Black, x, y, NodeWidth, NodeHeight);
             if (state.Buckets[i] != null)
-                DrawTree(state.Buckets[i], x, y, graphics, 0, state.Capacity);
+                graphics = DrawTree(state.Buckets[i], x, y, graphics, 0, state.Capacity);
             x += HorizontalSpacing;
         }
+        return bitmap;
     }
 
-    private void DrawTree(Node<TValue> node, int x, int y, Graphics graphics, int depth, int totalBuckets)
+    private Graphics DrawTree(Node<TValue> node, int x, int y, Graphics graphics, int depth, int totalBuckets)
     {
-        if (node == null) return;
+        if (node == null) return null;
 
         int childOffset = (int)(Math.Pow(2, depth) * (NodeWidth / 2));
 
@@ -50,10 +55,11 @@ internal class HashTableVizualizer<TValue>
         DrawTree(node.Right, x + childOffset, y + VerticalSpacing, graphics, depth + 1, totalBuckets);
 
         // Draw node
-        Brush brush = Brushes.LightBlue;
+        Brush brush = node.IsHighlighted ? Brushes.LightSalmon : Brushes.LightBlue;
         graphics.FillEllipse(brush, x, y, NodeWidth, NodeHeight);
         graphics.DrawEllipse(Pens.Black, x, y, NodeWidth, NodeHeight);
-        string nodeText = $"{node.Key}\n{node.Value}";
-        graphics.DrawString(nodeText, SystemFonts.DefaultFont, Brushes.Black, x + 5, y + 5);
+        string nodeText = $"K:{node.Key}\nV:{node.Value}";
+        graphics.DrawString(nodeText, SystemFonts.DefaultFont, Brushes.Black, x + 5, y + 13);
+        return graphics;
     }
 }

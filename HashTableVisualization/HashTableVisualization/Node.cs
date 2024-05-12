@@ -12,12 +12,13 @@ internal class Node<TValue>
     public TValue Value { get; set; }
     public Node<TValue>? Left { get; set; }
     public Node<TValue>? Right { get; set; }
-    //public bool IsHighlighted { get; set; } этот параметр будет открыт в случае модификации работы
+    public bool IsHighlighted { get; set; }
 
     public Node(string key, TValue value)
     {
         Key = key;
         Value = value;
         Left = Right = null;
+        IsHighlighted = false;
     }
 }

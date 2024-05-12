@@ -32,7 +32,7 @@ internal class HashTable<TValue>
             size++;
         }
         buckets[hash].Insert(key, value);
-        if (size > capacity * 0.75)
+        if (size > capacity * 2)
         {
             Resize();
         }
@@ -63,12 +63,13 @@ internal class HashTable<TValue>
             buckets[i] = new BinaryTree<TValue>();
         }
         size = 0;
-        for (int i = 0; i < capacity; i++)
+        int oldCapacity = capacity;
+        capacity = newCapacity;
+        for (int i = 0; i < oldCapacity; i++)
         {
             BinaryTree<TValue> tree = oldBuckets[i];
             rehashTree(tree, tree.Root);
         }
-        capacity = newCapacity;
     }
     private void rehashTree(BinaryTree<TValue> bst, Node<TValue>? node)
     {

@@ -12,7 +12,7 @@ namespace HashTableVisualization;
 
 public partial class InputForm : Form
 {
-    public event Action<string, int> DataSubmitted;
+    public event Action<string, int>? DataSubmitted;
     private bool isForInsert;
     public InputForm(bool isForInsert = true)
     {
@@ -26,7 +26,8 @@ public partial class InputForm : Form
         {
             Controls.Remove(txtValue);
             Controls.Remove(lblValue);
-            btnSubmit.Location = new System.Drawing.Point(60, 50);  // Move the button up
+            btnSubmit.Location = new System.Drawing.Point(130, 100);  // Move the button up
+            ClientSize = new Size(585, 250);
         }
     }
     private void btnSubmit_Click(object sender, EventArgs e)

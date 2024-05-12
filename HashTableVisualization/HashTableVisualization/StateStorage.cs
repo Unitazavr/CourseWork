@@ -52,10 +52,22 @@ public class StateStorage<TValue>
             currentIndex--;
         return GetCurrentState();
     }
-
-    public void Reset()
+    /// <summary>
+    /// Сбрасывает итератор состояний до 1
+    /// </summary>
+    /// <returns></returns>
+    internal HashTableState<TValue>? First()
     {
         currentIndex = 0;
+        return GetCurrentState();
+    }
+    /// <summary>
+    /// Выдает первое состояние хранилища без сброса итератора
+    /// </summary>
+    /// <returns></returns>
+    internal HashTableState<TValue>? GetFirst()
+    {
+        return states[0];
     }
 
     public void SaveToFile(string filePath)

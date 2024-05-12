@@ -15,47 +15,25 @@ public partial class HashTableForm : Form
     private HashTable<int> HashTable;
     private StateManager<int> manager;
     private HashTableVizualizer<int> visualizer;
-    Panel[] hashTablePanels;
     public HashTableForm()
     {
         InitializeComponent();
         HashTable = new HashTable<int>();
         manager = new StateManager<int>(HashTable, HashTable.capacity);
         visualizer = new HashTableVizualizer<int>();
-        InitializeHashTableVisual();
-    }
-    private void InitializeHashTableVisual()
-    {
-        Panel[] hashTablePanels = new System.Windows.Forms.Panel[16];
-        for (int i = 0; i < hashTablePanels.Length; i++)
+        for (int i = 0; i < 29; i++)
         {
-            hashTablePanels[i] = new System.Windows.Forms.Panel();
-            hashTablePanels[i].Location = new System.Drawing.Point(10, 10 + i * 80);
-            hashTablePanels[i].Size = new System.Drawing.Size(200, 70);
-            Controls.Add(hashTablePanels[i]);
-        }
-        foreach (var panel in hashTablePanels)
-        {
-            panel.Paint += (sender, e) => DrawInitialState(e.Graphics);
-        }
-    }
-
-    private void DrawInitialState(Graphics graphics)
-    {
-        // Initial drawing for empty buckets
-        for (int i = 0; i < HashTable.capacity; i++)
-        {
-            graphics.DrawString($"Bucket {i}", SystemFonts.DefaultFont, Brushes.Black, 10, i * 60 + 20);
-            graphics.DrawRectangle(Pens.Black, 10, i * 60 + 40, 40, 30);
+            manager.Insert(i.ToString(), 1);
         }
     }
 
     private void btnAdd_Click(object sender, EventArgs e)
     {
+        btnPreviousStep.Enabled = true;
         using (var inputForm = new InputForm(true))
         {
             inputForm.DataSubmitted += (key, value) => {
-                HashTable.Insert(key, value);
+                manager.Insert(key, value);
                 UpdateVisualization();
             };
             inputForm.ShowDialog();
@@ -67,7 +45,7 @@ public partial class HashTableForm : Form
         using (var inputForm = new InputForm(false))
         {
             inputForm.DataSubmitted += (key, value) => {
-                var result = HashTable.Find(key);
+                var result = manager.Find(key);
                 MessageBox.Show(result != null ? $"Value found: {result}" : "Value not found", "Find Result");
                 UpdateVisualization();
             };
@@ -77,10 +55,11 @@ public partial class HashTableForm : Form
 
     private void btnDelete_Click(object sender, EventArgs e)
     {
-        using (var inputForm = new InputForm())
+        btnPreviousStep.Enabled = true;
+        using (var inputForm = new InputForm(false))
         {
             inputForm.DataSubmitted += (key, value) => {
-                HashTable.Remove(key);
+                manager.Remove(key);
                 UpdateVisualization();
             };
             inputForm.ShowDialog();
@@ -89,25 +68,35 @@ public partial class HashTableForm : Form
 
     private void btnNextStep_Click(object sender, EventArgs e)
     {
-        manager.GetStateStorage().Next();
+        //Если текущее состояние - крайнее
+        if (manager.GetStateStorage().GetCurrentState().Equals(manager.GetStateStorage().Next()))
+        {
+            btnNextStep.Enabled = false;
+            return;
+        }
+        btnPreviousStep.Enabled = true;
         UpdateVisualization();
     }
 
     private void btnPreviousStep_Click(object sender, EventArgs e)
     {
+        //Если текущее состояние - первое
+        if (manager.GetStateStorage().GetCurrentState().Equals(manager.GetStateStorage().GetFirst()))
+        {
+            btnPreviousStep.Enabled = false;
+            return;
+        }
         manager.GetStateStorage().Previous();
+        btnNextStep.Enabled = true;
         UpdateVisualization();
     }
 
     private void UpdateVisualization()
     {
-        var currentState = manager.GetStateStorage().GetCurrentState();
+        HashTableState<int>? currentState = manager.GetStateStorage().GetCurrentState();
         if (currentState == null)
             return;
-        foreach (var panel in hashTablePanels)
-        {
-            panel.Invalidate(); // Trigger a repaint
-            panel.Paint += (sender, e) => visualizer.DrawHashTable(currentState, e.Graphics);
-        }
+        Bitmap bitmap = new(pictureBox.Width, pictureBox.Height);
+        pictureBox.Image = visualizer.DrawHashTable(currentState, bitmap);
     }
 }

@@ -34,16 +34,14 @@
             loadToolStripMenuItem = new ToolStripMenuItem();
             pictureBox = new PictureBox();
             Tools = new GroupBox();
-            panelStepControls = new Panel();
-            btnPreviousStep = new Button();
-            btnNextStep = new Button();
             btnDelete = new Button();
             btnFind = new Button();
             btnAdd = new Button();
+            btnNextStep = new Button();
+            btnPreviousStep = new Button();
             menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             Tools.SuspendLayout();
-            panelStepControls.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
@@ -60,75 +58,46 @@
             // 
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveToolStripMenuItem, loadToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(90, 38);
-            fileToolStripMenuItem.Text = "Файл";
+            fileToolStripMenuItem.Size = new Size(71, 36);
+            fileToolStripMenuItem.Text = "File";
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            saveToolStripMenuItem.Size = new Size(343, 44);
-            saveToolStripMenuItem.Text = "Сохранить";
+            saveToolStripMenuItem.Size = new Size(359, 44);
+            saveToolStripMenuItem.Text = "Save";
             // 
             // loadToolStripMenuItem
             // 
             loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             loadToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.L;
-            loadToolStripMenuItem.Size = new Size(343, 44);
-            loadToolStripMenuItem.Text = "Загрузить";
+            loadToolStripMenuItem.Size = new Size(359, 44);
+            loadToolStripMenuItem.Text = "Load";
             // 
             // pictureBox
             // 
             pictureBox.Dock = DockStyle.Left;
             pictureBox.Location = new Point(0, 40);
             pictureBox.Name = "pictureBox";
-            pictureBox.Size = new Size(2030, 1239);
+            pictureBox.Size = new Size(2030, 1757);
             pictureBox.TabIndex = 1;
             pictureBox.TabStop = false;
             // 
             // Tools
             // 
-            Tools.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            Tools.Controls.Add(panelStepControls);
+            Tools.Controls.Add(btnPreviousStep);
+            Tools.Controls.Add(btnNextStep);
             Tools.Controls.Add(btnDelete);
             Tools.Controls.Add(btnFind);
             Tools.Controls.Add(btnAdd);
+            Tools.Dock = DockStyle.Right;
             Tools.Location = new Point(2027, 40);
             Tools.Name = "Tools";
-            Tools.Size = new Size(487, 1239);
+            Tools.Size = new Size(487, 1757);
             Tools.TabIndex = 0;
             Tools.TabStop = false;
             Tools.Text = "Tools";
-            // 
-            // panelStepControls
-            // 
-            panelStepControls.Controls.Add(btnPreviousStep);
-            panelStepControls.Controls.Add(btnNextStep);
-            panelStepControls.Enabled = false;
-            panelStepControls.Location = new Point(9, 393);
-            panelStepControls.Name = "panelStepControls";
-            panelStepControls.Size = new Size(472, 241);
-            panelStepControls.TabIndex = 3;
-            // 
-            // btnPreviousStep
-            // 
-            btnPreviousStep.Location = new Point(0, 125);
-            btnPreviousStep.Name = "btnPreviousStep";
-            btnPreviousStep.Size = new Size(472, 87);
-            btnPreviousStep.TabIndex = 2;
-            btnPreviousStep.Text = "Previous Step";
-            btnPreviousStep.UseVisualStyleBackColor = true;
-            btnPreviousStep.Click += btnPreviousStep_Click;
-            // 
-            // btnNextStep
-            // 
-            btnNextStep.Location = new Point(0, 32);
-            btnNextStep.Name = "btnNextStep";
-            btnNextStep.Size = new Size(472, 87);
-            btnNextStep.TabIndex = 1;
-            btnNextStep.Text = "Next Step";
-            btnNextStep.UseVisualStyleBackColor = true;
-            btnNextStep.Click += btnNextStep_Click;
             // 
             // btnDelete
             // 
@@ -160,11 +129,33 @@
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += btnAdd_Click;
             // 
+            // btnNextStep
+            // 
+            btnNextStep.Enabled = false;
+            btnNextStep.Location = new Point(9, 414);
+            btnNextStep.Name = "btnNextStep";
+            btnNextStep.Size = new Size(472, 87);
+            btnNextStep.TabIndex = 1;
+            btnNextStep.Text = "Next Step";
+            btnNextStep.UseVisualStyleBackColor = true;
+            btnNextStep.Click += btnNextStep_Click;
+            // 
+            // btnPreviousStep
+            // 
+            btnPreviousStep.Enabled = false;
+            btnPreviousStep.Location = new Point(9, 507);
+            btnPreviousStep.Name = "btnPreviousStep";
+            btnPreviousStep.Size = new Size(472, 87);
+            btnPreviousStep.TabIndex = 2;
+            btnPreviousStep.Text = "Previous Step";
+            btnPreviousStep.UseVisualStyleBackColor = true;
+            btnPreviousStep.Click += btnPreviousStep_Click;
+            // 
             // HashTableForm
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2514, 1279);
+            ClientSize = new Size(2514, 1797);
             Controls.Add(Tools);
             Controls.Add(pictureBox);
             Controls.Add(menuStrip);
@@ -175,7 +166,6 @@
             menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             Tools.ResumeLayout(false);
-            panelStepControls.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -190,7 +180,6 @@
         private Button btnAdd;
         private Button btnDelete;
         private Button btnFind;
-        private Panel panelStepControls;
         private Button btnPreviousStep;
         private Button btnNextStep;
     }
