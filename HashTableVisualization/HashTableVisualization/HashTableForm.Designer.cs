@@ -34,6 +34,7 @@
             loadToolStripMenuItem = new ToolStripMenuItem();
             pictureBox = new PictureBox();
             Tools = new GroupBox();
+            ActionsListBox = new ListBox();
             btnInformation = new Button();
             btnPreviousStep = new Button();
             btnNextStep = new Button();
@@ -85,12 +86,13 @@
             pictureBox.Dock = DockStyle.Left;
             pictureBox.Location = new Point(0, 40);
             pictureBox.Name = "pictureBox";
-            pictureBox.Size = new Size(2190, 1719);
+            pictureBox.Size = new Size(2119, 1563);
             pictureBox.TabIndex = 1;
             pictureBox.TabStop = false;
             // 
             // Tools
             // 
+            Tools.Controls.Add(ActionsListBox);
             Tools.Controls.Add(btnInformation);
             Tools.Controls.Add(btnPreviousStep);
             Tools.Controls.Add(btnNextStep);
@@ -98,18 +100,28 @@
             Tools.Controls.Add(btnFind);
             Tools.Controls.Add(btnAdd);
             Tools.Dock = DockStyle.Right;
-            Tools.Location = new Point(2187, 40);
+            Tools.Location = new Point(2125, 40);
             Tools.Name = "Tools";
-            Tools.Size = new Size(487, 1719);
+            Tools.Size = new Size(549, 1563);
             Tools.TabIndex = 0;
             Tools.TabStop = false;
             Tools.Text = "Tools";
             // 
+            // ActionsListBox
+            // 
+            ActionsListBox.FormattingEnabled = true;
+            ActionsListBox.HorizontalScrollbar = true;
+            ActionsListBox.ItemHeight = 32;
+            ActionsListBox.Location = new Point(0, 600);
+            ActionsListBox.Name = "ActionsListBox";
+            ActionsListBox.Size = new Size(545, 580);
+            ActionsListBox.TabIndex = 4;
+            // 
             // btnInformation
             // 
-            btnInformation.Location = new Point(9, 759);
+            btnInformation.Location = new Point(0, 1290);
             btnInformation.Name = "btnInformation";
-            btnInformation.Size = new Size(472, 87);
+            btnInformation.Size = new Size(545, 87);
             btnInformation.TabIndex = 3;
             btnInformation.Text = "Information";
             btnInformation.UseVisualStyleBackColor = true;
@@ -118,9 +130,9 @@
             // btnPreviousStep
             // 
             btnPreviousStep.Enabled = false;
-            btnPreviousStep.Location = new Point(9, 507);
+            btnPreviousStep.Location = new Point(2, 507);
             btnPreviousStep.Name = "btnPreviousStep";
-            btnPreviousStep.Size = new Size(472, 87);
+            btnPreviousStep.Size = new Size(543, 87);
             btnPreviousStep.TabIndex = 2;
             btnPreviousStep.Text = "Previous Step";
             btnPreviousStep.UseVisualStyleBackColor = true;
@@ -129,9 +141,9 @@
             // btnNextStep
             // 
             btnNextStep.Enabled = false;
-            btnNextStep.Location = new Point(9, 414);
+            btnNextStep.Location = new Point(2, 414);
             btnNextStep.Name = "btnNextStep";
-            btnNextStep.Size = new Size(472, 87);
+            btnNextStep.Size = new Size(543, 87);
             btnNextStep.TabIndex = 1;
             btnNextStep.Text = "Next Step";
             btnNextStep.UseVisualStyleBackColor = true;
@@ -139,9 +151,9 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(9, 252);
+            btnDelete.Location = new Point(2, 252);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(472, 87);
+            btnDelete.Size = new Size(543, 87);
             btnDelete.TabIndex = 2;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = true;
@@ -149,9 +161,9 @@
             // 
             // btnFind
             // 
-            btnFind.Location = new Point(9, 159);
+            btnFind.Location = new Point(2, 159);
             btnFind.Name = "btnFind";
-            btnFind.Size = new Size(472, 87);
+            btnFind.Size = new Size(543, 87);
             btnFind.TabIndex = 1;
             btnFind.Text = "Find";
             btnFind.UseVisualStyleBackColor = true;
@@ -159,9 +171,9 @@
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(9, 66);
+            btnAdd.Location = new Point(2, 66);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(472, 87);
+            btnAdd.Size = new Size(543, 87);
             btnAdd.TabIndex = 0;
             btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = true;
@@ -180,7 +192,7 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2674, 1759);
+            ClientSize = new Size(2674, 1603);
             Controls.Add(Tools);
             Controls.Add(pictureBox);
             Controls.Add(menuStrip);
@@ -210,5 +222,6 @@
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
         private Button btnInformation;
+        private ListBox ActionsListBox;
     }
 }

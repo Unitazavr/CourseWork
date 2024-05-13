@@ -21,13 +21,14 @@ public partial class HashTableForm : Form
         HashTable = new HashTable<int>();
         manager = new StateManager<int>(HashTable, HashTable.capacity);
         visualizer = new HashTableVizualizer<int>();
-        for (int i = 0; i < 30; i++)
-        {
-            manager.Insert(i.ToString(), i * 2);
-        }
         UpdateVisualization();
     }
+    private void ListBoxAddText(int key, int value)
+    {
+        int hash = Math.Abs(key.GetHashCode() % HashTable.capacity);
+        ActionsListBox.DrawMode = DrawMode.OwnerDrawVariable;
 
+    }
     private void btnAdd_Click(object sender, EventArgs e)
     {
         btnPreviousStep.Enabled = true;
@@ -36,6 +37,8 @@ public partial class HashTableForm : Form
             inputForm.DataSubmitted += (key, value) =>
             {
                 manager.Insert(key, value);
+                ActionsListBox.Items.Add($"Посчитан хэш элемента: {Math.Abs(key.GetHashCode() % HashTable.capacity)}");
+                ActionsListBox.Items.Add($"Элемент со значением {value} добавлен в {Math.Abs(key.GetHashCode() % HashTable.capacity)} Bucket");
                 UpdateVisualization();
             };
             inputForm.ShowDialog();
