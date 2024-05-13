@@ -104,11 +104,11 @@ public class StateStorage<TValue>
             {
                 return false;
             }
-
             string? data = streamReader.ReadLine();
+            HashTableState<TValue>? tableState = null;
             while (data != null)
             {
-                HashTableState<TValue>? tableState = JsonSerializer.Deserialize<HashTableState<TValue>>(data);
+                tableState = JsonSerializer.Deserialize<HashTableState<TValue>>(data);
                 if (tableState != null)
                 {
                     states.Add(tableState);

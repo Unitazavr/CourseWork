@@ -32,7 +32,8 @@ public partial class HashTableForm : Form
         btnPreviousStep.Enabled = true;
         using (var inputForm = new InputForm(true))
         {
-            inputForm.DataSubmitted += (key, value) => {
+            inputForm.DataSubmitted += (key, value) =>
+            {
                 manager.Insert(key, value);
                 UpdateVisualization();
             };
@@ -42,11 +43,12 @@ public partial class HashTableForm : Form
 
     private void btnFind_Click(object sender, EventArgs e)
     {
-        using (var inputForm = new InputForm(false))
+        using (InputForm inputForm = new InputForm(false))
         {
-            inputForm.DataSubmitted += (key, value) => {
-                var result = manager.Find(key);
-                MessageBox.Show(result != null ? $"Value found: {result}" : "Value not found", "Find Result");
+            inputForm.DataSubmitted += (key, value) =>
+            {
+                Node<int> result = manager.Find(key);
+                MessageBox.Show(result != null ? $"Value found: {result.Value}\nThe Node is highlighted on the screen!" : "Value not found", "Find Result");
                 UpdateVisualization();
             };
             inputForm.ShowDialog();
@@ -58,7 +60,8 @@ public partial class HashTableForm : Form
         btnPreviousStep.Enabled = true;
         using (var inputForm = new InputForm(false))
         {
-            inputForm.DataSubmitted += (key, value) => {
+            inputForm.DataSubmitted += (key, value) =>
+            {
                 manager.Remove(key);
                 UpdateVisualization();
             };
@@ -98,5 +101,30 @@ public partial class HashTableForm : Form
             return;
         Bitmap bitmap = new(pictureBox.Width, pictureBox.Height);
         pictureBox.Image = visualizer.DrawHashTable(currentState, bitmap);
+    }
+
+    private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        {
+            try
+            {
+                manager.SaveStatesToFile(saveFileDialog.FileName);
+                MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: Сохранение не удалось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
+
+    private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                    manager.LoadStatesFromFile(openFileDialog.FileName);
+                    MessageBox.Show("Загрузка прошла успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
     }
 }

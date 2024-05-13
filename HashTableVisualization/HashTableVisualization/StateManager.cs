@@ -21,9 +21,9 @@ internal class StateManager<TValue>
     }
     private void Highlight(string key)
     {
-        hashTable.Find(key).IsHighlighted = true;
         if (LastHighlighted != null)
             hashTable.Find(LastHighlighted).IsHighlighted = false;
+        hashTable.Find(key).IsHighlighted = true;
         LastHighlighted = key;
     }
     public void Insert(string key, TValue value)
@@ -54,12 +54,12 @@ internal class StateManager<TValue>
         return stateStorage;
     }
 
-    public void LoadStateFromFile(string filePath)
+    public void LoadStatesFromFile(string filePath)
     {
         stateStorage.LoadFromFile(filePath);
     }
 
-    public void SaveStateToFile(string filePath)
+    public void SaveStatesToFile(string filePath)
     {
         stateStorage.SaveToFile(filePath);
     }

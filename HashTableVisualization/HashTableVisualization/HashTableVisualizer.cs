@@ -24,7 +24,7 @@ internal class HashTableVizualizer<TValue>
 
         for (int i = 0; i < state.Capacity; i++)
         {
-            if (x + NodeWidth > bitmap.Width)
+            if (x + NodeWidth * 2 > bitmap.Width)
             {
                 y += 500;
                 x = StartX;
@@ -46,14 +46,16 @@ internal class HashTableVizualizer<TValue>
 
         // Draw left child
         if (node.Left != null)
+        {
             graphics.DrawLine(Pens.Black, x + NodeWidth / 2, y + NodeHeight / 2, x - childOffset + NodeWidth / 2, y + VerticalSpacing + NodeHeight / 2);
-        DrawTree(node.Left, x - childOffset, y + VerticalSpacing, graphics, depth + 1, totalBuckets);
-
+            DrawTree(node.Left, x - childOffset, y + VerticalSpacing, graphics, depth + 1, totalBuckets);
+        }
         // Draw right child
         if (node.Right != null)
+        {
             graphics.DrawLine(Pens.Black, x + NodeWidth / 2, y + NodeHeight / 2, x + childOffset + NodeWidth / 2, y + VerticalSpacing + NodeHeight / 2);
-        DrawTree(node.Right, x + childOffset, y + VerticalSpacing, graphics, depth + 1, totalBuckets);
-
+            DrawTree(node.Right, x + childOffset, y + VerticalSpacing, graphics, depth + 1, totalBuckets);
+        }
         // Draw node
         Brush brush = node.IsHighlighted ? Brushes.LightSalmon : Brushes.LightBlue;
         graphics.FillEllipse(brush, x, y, NodeWidth, NodeHeight);

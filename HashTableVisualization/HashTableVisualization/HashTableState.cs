@@ -26,7 +26,7 @@ internal class HashTableState<TValue>
     {
         if (node == null) return null;
 
-        var newNode = new Node<TValue>(node.Key, node.Value)
+        var newNode = new Node<TValue>(node.Key, node.Value, node.IsHighlighted)
         {
             Left = CopyTree(node.Left),
             Right = CopyTree(node.Right)

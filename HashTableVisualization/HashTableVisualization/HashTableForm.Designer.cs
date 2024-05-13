@@ -34,11 +34,13 @@
             loadToolStripMenuItem = new ToolStripMenuItem();
             pictureBox = new PictureBox();
             Tools = new GroupBox();
+            btnPreviousStep = new Button();
+            btnNextStep = new Button();
             btnDelete = new Button();
             btnFind = new Button();
             btnAdd = new Button();
-            btnNextStep = new Button();
-            btnPreviousStep = new Button();
+            openFileDialog = new OpenFileDialog();
+            saveFileDialog = new SaveFileDialog();
             menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             Tools.SuspendLayout();
@@ -50,7 +52,7 @@
             menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(2514, 40);
+            menuStrip.Size = new Size(2674, 40);
             menuStrip.TabIndex = 1;
             menuStrip.Text = "menuStrip1";
             // 
@@ -67,6 +69,7 @@
             saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
             saveToolStripMenuItem.Size = new Size(359, 44);
             saveToolStripMenuItem.Text = "Save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // loadToolStripMenuItem
             // 
@@ -74,13 +77,14 @@
             loadToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.L;
             loadToolStripMenuItem.Size = new Size(359, 44);
             loadToolStripMenuItem.Text = "Load";
+            loadToolStripMenuItem.Click += loadToolStripMenuItem_Click;
             // 
             // pictureBox
             // 
             pictureBox.Dock = DockStyle.Left;
             pictureBox.Location = new Point(0, 40);
             pictureBox.Name = "pictureBox";
-            pictureBox.Size = new Size(2030, 1757);
+            pictureBox.Size = new Size(2190, 1789);
             pictureBox.TabIndex = 1;
             pictureBox.TabStop = false;
             // 
@@ -92,12 +96,34 @@
             Tools.Controls.Add(btnFind);
             Tools.Controls.Add(btnAdd);
             Tools.Dock = DockStyle.Right;
-            Tools.Location = new Point(2027, 40);
+            Tools.Location = new Point(2187, 40);
             Tools.Name = "Tools";
-            Tools.Size = new Size(487, 1757);
+            Tools.Size = new Size(487, 1789);
             Tools.TabIndex = 0;
             Tools.TabStop = false;
             Tools.Text = "Tools";
+            // 
+            // btnPreviousStep
+            // 
+            btnPreviousStep.Enabled = false;
+            btnPreviousStep.Location = new Point(9, 507);
+            btnPreviousStep.Name = "btnPreviousStep";
+            btnPreviousStep.Size = new Size(472, 87);
+            btnPreviousStep.TabIndex = 2;
+            btnPreviousStep.Text = "Previous Step";
+            btnPreviousStep.UseVisualStyleBackColor = true;
+            btnPreviousStep.Click += btnPreviousStep_Click;
+            // 
+            // btnNextStep
+            // 
+            btnNextStep.Enabled = false;
+            btnNextStep.Location = new Point(9, 414);
+            btnNextStep.Name = "btnNextStep";
+            btnNextStep.Size = new Size(472, 87);
+            btnNextStep.TabIndex = 1;
+            btnNextStep.Text = "Next Step";
+            btnNextStep.UseVisualStyleBackColor = true;
+            btnNextStep.Click += btnNextStep_Click;
             // 
             // btnDelete
             // 
@@ -129,33 +155,20 @@
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += btnAdd_Click;
             // 
-            // btnNextStep
+            // openFileDialog
             // 
-            btnNextStep.Enabled = false;
-            btnNextStep.Location = new Point(9, 414);
-            btnNextStep.Name = "btnNextStep";
-            btnNextStep.Size = new Size(472, 87);
-            btnNextStep.TabIndex = 1;
-            btnNextStep.Text = "Next Step";
-            btnNextStep.UseVisualStyleBackColor = true;
-            btnNextStep.Click += btnNextStep_Click;
+            openFileDialog.FileName = "openFileDialog1";
+            openFileDialog.Filter = "txt file | *.txt";
             // 
-            // btnPreviousStep
+            // saveFileDialog
             // 
-            btnPreviousStep.Enabled = false;
-            btnPreviousStep.Location = new Point(9, 507);
-            btnPreviousStep.Name = "btnPreviousStep";
-            btnPreviousStep.Size = new Size(472, 87);
-            btnPreviousStep.TabIndex = 2;
-            btnPreviousStep.Text = "Previous Step";
-            btnPreviousStep.UseVisualStyleBackColor = true;
-            btnPreviousStep.Click += btnPreviousStep_Click;
+            saveFileDialog.Filter = "txt file | *.txt";
             // 
             // HashTableForm
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2514, 1797);
+            ClientSize = new Size(2674, 1829);
             Controls.Add(Tools);
             Controls.Add(pictureBox);
             Controls.Add(menuStrip);
@@ -182,5 +195,7 @@
         private Button btnFind;
         private Button btnPreviousStep;
         private Button btnNextStep;
+        private OpenFileDialog openFileDialog;
+        private SaveFileDialog saveFileDialog;
     }
 }
