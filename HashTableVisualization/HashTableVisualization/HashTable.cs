@@ -36,8 +36,18 @@ internal class HashTable<TValue>
         for (int i = 0; i < capacity; i++)
         {
             if (state.Buckets[i] != null)
-                Insert(state.Buckets[i].Key, state.Buckets[i].Value);
+            {
+                CopyTree(state.Buckets[i]);
+            }
         }
+    }
+    private void CopyTree(Node<TValue> node)
+    {
+        if (node == null) 
+            return;
+        Insert(node.Key, node.Value);
+        CopyTree(node.Left);
+        CopyTree(node.Right);
     }
 
     private int GetHash(string key) => Math.Abs(key.GetHashCode()) % capacity;

@@ -23,7 +23,7 @@ public partial class HashTableForm : Form
         visualizer = new HashTableVizualizer<int>();
         for (int i = 0; i < 30; i++)
         {
-            manager.Insert(i.ToString(), i*2);
+            manager.Insert(i.ToString(), i * 2);
         }
         UpdateVisualization();
     }
@@ -127,16 +127,22 @@ public partial class HashTableForm : Form
             {
                 manager.LoadStatesFromFile(openFileDialog.FileName);
                 manager.UpdateHashTable();
-                UpdateVisualization();
                 if (!manager.GetStateStorage().isFirst())
                     btnPreviousStep.Enabled = true;
+                UpdateVisualization();
                 MessageBox.Show("Загрузка прошла успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Ошибка: Загрузка не удалась", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
+    }
+
+    private void btnInformation_Click(object sender, EventArgs e)
+    {
+        InfoForm infoForm = new InfoForm();
+        infoForm.ShowDialog();
     }
 }
