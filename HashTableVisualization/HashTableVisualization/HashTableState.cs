@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace HashTableVisualization;
@@ -10,7 +11,15 @@ internal class HashTableState<TValue>
 {
     public int Capacity { get; }
     public Node<TValue>[] Buckets { get; }
-
+    /// <summary>
+    /// Конструктор для Сериализатора 
+    /// </summary>
+    [JsonConstructor]
+    public HashTableState(int Capacity, Node<TValue>[] Buckets)
+    {
+        this.Capacity = Capacity;
+        this.Buckets = Buckets;
+    }
     public HashTableState(HashTable<TValue> hashTable)
     {
         Capacity = hashTable.capacity;

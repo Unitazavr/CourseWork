@@ -69,6 +69,10 @@ public class StateStorage<TValue>
     {
         return states[0];
     }
+    internal bool isFirst()
+    {
+        return currentIndex == 0;
+    }
 
     public void SaveToFile(string filePath)
     {
@@ -101,19 +105,20 @@ public class StateStorage<TValue>
         using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8))
         {
             if (streamReader.ReadLine() != saveFileKey)
-            {
                 return false;
-            }
-            string? data = streamReader.ReadLine();
+            string? hashTable = streamReader.ReadLine();
+            if (hashTable == null)
+                return false;
             HashTableState<TValue>? tableState = null;
-            while (data != null)
+            while (hashTable != null)
             {
-                tableState = JsonSerializer.Deserialize<HashTableState<TValue>>(data);
+                tableState = JsonSerializer.Deserialize<HashTableState<TValue>>(hashTable);
                 if (tableState != null)
                 {
                     states.Add(tableState);
+                    currentIndex++;
                 }
-                data = streamReader.ReadLine();
+                hashTable = streamReader.ReadLine();
             }
         }
         return true;

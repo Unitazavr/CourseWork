@@ -21,10 +21,11 @@ public partial class HashTableForm : Form
         HashTable = new HashTable<int>();
         manager = new StateManager<int>(HashTable, HashTable.capacity);
         visualizer = new HashTableVizualizer<int>();
-        for (int i = 0; i < 29; i++)
+        for (int i = 0; i < 30; i++)
         {
-            manager.Insert(i.ToString(), 1);
+            manager.Insert(i.ToString(), i*2);
         }
+        UpdateVisualization();
     }
 
     private void btnAdd_Click(object sender, EventArgs e)
@@ -93,7 +94,6 @@ public partial class HashTableForm : Form
         btnNextStep.Enabled = true;
         UpdateVisualization();
     }
-
     private void UpdateVisualization()
     {
         HashTableState<int>? currentState = manager.GetStateStorage().GetCurrentState();
@@ -121,10 +121,22 @@ public partial class HashTableForm : Form
 
     private void loadToolStripMenuItem_Click(object sender, EventArgs e)
     {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+        if (openFileDialog.ShowDialog() == DialogResult.OK)
+        {
+            try
             {
-                    manager.LoadStatesFromFile(openFileDialog.FileName);
-                    MessageBox.Show("Загрузка прошла успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                manager.LoadStatesFromFile(openFileDialog.FileName);
+                manager.UpdateHashTable();
+                UpdateVisualization();
+                if (!manager.GetStateStorage().isFirst())
+                    btnPreviousStep.Enabled = true;
+                MessageBox.Show("Загрузка прошла успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Ошибка: Загрузка не удалась", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
     }
 }

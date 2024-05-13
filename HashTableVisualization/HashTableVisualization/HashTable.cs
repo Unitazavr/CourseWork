@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,23 @@ internal class HashTable<TValue>
         for (int i = 0; i < capacity; i++)
         {
             buckets[i] = new BinaryTree<TValue>();
+        }
+    }
+    /// <summary>
+    /// Конструктор для менеджера
+    /// </summary>
+    internal HashTable(HashTableState<TValue> state)
+    {
+        capacity = state.Capacity;
+        buckets = new BinaryTree<TValue>[capacity];
+        for (int i = 0; i < capacity; i++)
+        {
+            buckets[i] = new BinaryTree<TValue>();
+        }
+        for (int i = 0; i < capacity; i++)
+        {
+            if (state.Buckets[i] != null)
+                Insert(state.Buckets[i].Key, state.Buckets[i].Value);
         }
     }
 

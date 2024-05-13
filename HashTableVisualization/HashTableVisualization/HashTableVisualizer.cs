@@ -26,7 +26,7 @@ internal class HashTableVizualizer<TValue>
         {
             if (x + NodeWidth * 2 > bitmap.Width)
             {
-                y += 500;
+                y += 400;
                 x = StartX;
             }
             graphics.DrawString($"Bucket {i}", SystemFonts.DefaultFont, Brushes.Black, x - 5, y - 30);

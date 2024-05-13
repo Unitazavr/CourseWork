@@ -19,6 +19,11 @@ internal class StateManager<TValue>
         stateStorage.AddState(hashTable);
         LastHighlighted = null;
     }
+    public void UpdateHashTable()
+    {
+        hashTable = new HashTable<TValue>(stateStorage.GetCurrentState());
+        LastHighlighted = null;
+    }
     private void Highlight(string key)
     {
         if (LastHighlighted != null)
