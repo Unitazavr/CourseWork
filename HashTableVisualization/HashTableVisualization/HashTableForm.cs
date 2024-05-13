@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+//!!! Сделать более подробную операцию добавления. Показать, что хэш считается и в его ячейку идет вставка. Совет был ListBox.
 namespace HashTableVisualization;
 
 public partial class HashTableForm : Form
