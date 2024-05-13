@@ -13,11 +13,11 @@ internal class Node<TValue>
     public Node<TValue>? Left { get; set; }
     public Node<TValue>? Right { get; set; }
     public bool IsHighlighted { get; set; }
-    public Node(string key, TValue value, bool isHighlighted = false)
+    public Node(string Key, TValue Value, bool IsHighlighted = false)
     {
-        Key = key;
-        Value = value;
+        this.Key = Key;
+        this.Value = Value;
         Left = Right = null;
-        this.IsHighlighted = isHighlighted;
+        this.IsHighlighted = IsHighlighted;
     }
 }

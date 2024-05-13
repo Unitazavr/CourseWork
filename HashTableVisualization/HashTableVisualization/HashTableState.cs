@@ -26,20 +26,11 @@ internal class HashTableState<TValue>
     {
         if (node == null) return null;
 
-        var newNode = new Node<TValue>(node.Key, node.Value, node.IsHighlighted)
+        Node<TValue> newNode = new Node<TValue>(node.Key, node.Value, node.IsHighlighted)
         {
             Left = CopyTree(node.Left),
             Right = CopyTree(node.Right)
         };
         return newNode;
     }
-
-    //public void Restore(HashTable<TValue> hashTable)
-    //{
-    //    hashTable.Clear();
-    //    for (int i = 0; i < Capacity; i++)
-    //    {
-    //        hashTable.SetRootNode(i, CopyTree(Buckets[i]));
-    //    }
-    //}
 }

@@ -9,6 +9,10 @@ namespace HashTableVisualization;
 internal class BinaryTree<TValue>
 {
     public Node<TValue>? Root { get; set; }
+    public BinaryTree()
+    {
+        Root = null;
+    }
     public void Insert(string key, TValue value)
     {
         Root = InsertRecursive(Root, key, value);
