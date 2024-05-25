@@ -52,6 +52,10 @@ public class StateStorage<TValue>
             currentIndex--;
         return GetCurrentState();
     }
+    internal HashTableState<TValue>? GetLast()
+    {
+        return states.Last();
+    }
     /// <summary>
     /// Сбрасывает итератор состояний до 1
     /// </summary>
@@ -67,7 +71,7 @@ public class StateStorage<TValue>
     /// <returns></returns>
     internal HashTableState<TValue>? GetFirst()
     {
-        return states[0];
+        return states.First();
     }
     internal bool isFirst()
     {

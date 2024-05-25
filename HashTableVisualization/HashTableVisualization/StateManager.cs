@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,7 +28,12 @@ internal class StateManager<TValue>
     private void Highlight(string key)
     {
         if (LastHighlighted != null)
-            hashTable.Find(LastHighlighted).IsHighlighted = false;
+        {
+            if (hashTable.Find(LastHighlighted) != null)
+                hashTable.Find(LastHighlighted).IsHighlighted = false;
+            else
+                LastHighlighted = null;
+        }
         hashTable.Find(key).IsHighlighted = true;
         LastHighlighted = key;
     }
@@ -41,15 +47,13 @@ internal class StateManager<TValue>
     public Node<TValue>? Find(string key)
     {
         Node<TValue>? value = hashTable.Find(key);
-        if (value != null) {
-            Highlight(key);
-            stateStorage.AddState(hashTable);
-        }
         return value;
     }
     public bool Remove(string key)
     {
         bool result = hashTable.Remove(key);
+        if (LastHighlighted == key)
+            LastHighlighted = null;
         stateStorage.AddState(hashTable);
         return result;
     }

@@ -60,7 +60,9 @@ internal class HashTableVizualizer<TValue>
         Brush brush = node.IsHighlighted ? Brushes.LightSalmon : Brushes.LightBlue;
         graphics.FillEllipse(brush, x, y, NodeWidth, NodeHeight);
         graphics.DrawEllipse(Pens.Black, x, y, NodeWidth, NodeHeight);
-        string nodeText = $"K:{node.Key}\nV:{node.Value}";
+        string valueString = node.Value.ToString();
+        //Если строки с данными помещаются - печаетем всю, иначе - первые 3 символа 
+        string nodeText = $"K:{(node.Key.Length > 3 ? node.Key.Substring(0, 3)+".." : node.Key)}\nV:{(valueString.Length > 3 ? valueString.Substring(0, 3)+"." : valueString)}";
         graphics.DrawString(nodeText, SystemFonts.DefaultFont, Brushes.Black, x + 5, y + 13);
         return graphics;
     }

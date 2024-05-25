@@ -50,7 +50,15 @@ internal class HashTable<TValue>
         CopyTree(node.Right);
     }
 
-    private int GetHash(string key) => Math.Abs(key.GetHashCode()) % capacity;
+    public int GetHash(string key)
+    {
+        int hash = 0;
+        for (int i = 0; i < key.Length; i++)
+        {
+            hash = hash * 31 + key[i];
+        }
+        return hash % capacity;
+    }
 
     public void Insert(string key, TValue value)
     {

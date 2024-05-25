@@ -32,14 +32,15 @@ public partial class InputForm : Form
     }
     private void btnSubmit_Click(object sender, EventArgs e)
     {
-        if (isForInsert && !string.IsNullOrEmpty(txtValue.Text))
+        if ((isForInsert && string.IsNullOrEmpty(txtValue.Text)) || string.IsNullOrEmpty(txtKey.Text))
         {
+            MessageBox.Show("The data is incorrect!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+        if (isForInsert)
             DataSubmitted?.Invoke(txtKey.Text, int.Parse(txtValue.Text));
-        }
-        else if (!isForInsert)
-        {
-            DataSubmitted?.Invoke(txtKey.Text, 0);  // Value is not used for find or delete
-        }
+        else
+            DataSubmitted?.Invoke(txtKey.Text, 0);
 
         this.Close();
     }

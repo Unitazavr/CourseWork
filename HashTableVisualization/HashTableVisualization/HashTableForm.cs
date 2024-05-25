@@ -23,22 +23,21 @@ public partial class HashTableForm : Form
         visualizer = new HashTableVizualizer<int>();
         UpdateVisualization();
     }
-    private void ListBoxAddText(int key, int value)
-    {
-        int hash = Math.Abs(key.GetHashCode() % HashTable.capacity);
-        ActionsListBox.DrawMode = DrawMode.OwnerDrawVariable;
-
-    }
+    //private void ListBoxAddText(int key, int value)
+    //{
+    //    int hash = Math.Abs(key.GetHashCode() % HashTable.capacity);
+    //    ActionsListBox.DrawMode = DrawMode.OwnerDrawVariable;
+    //}
     private void btnAdd_Click(object sender, EventArgs e)
     {
-        btnPreviousStep.Enabled = true;
         using (var inputForm = new InputForm(true))
         {
             inputForm.DataSubmitted += (key, value) =>
             {
                 manager.Insert(key, value);
-                ActionsListBox.Items.Add($"Посчитан хэш элемента: {Math.Abs(key.GetHashCode() % HashTable.capacity)}");
-                ActionsListBox.Items.Add($"Элемент со значением {value} добавлен в {Math.Abs(key.GetHashCode() % HashTable.capacity)} Bucket");
+                ActionsListBox.Items.Insert(0, $"Element with value {value} added in {HashTable.GetHash(key)} Bucket");
+                ActionsListBox.Items.Insert(1, $"Hash of key '{key}' calculated: {HashTable.GetHash(key)}");
+                btnPreviousStep.Enabled = true;
                 UpdateVisualization();
             };
             inputForm.ShowDialog();
@@ -52,7 +51,7 @@ public partial class HashTableForm : Form
             inputForm.DataSubmitted += (key, value) =>
             {
                 Node<int> result = manager.Find(key);
-                MessageBox.Show(result != null ? $"Value found: {result.Value}\nThe Node is highlighted on the screen!" : "Value not found", "Find Result");
+                MessageBox.Show(result != null ? $"Value found: {result.Value}" : "Value not found", "Find Result");
                 UpdateVisualization();
             };
             inputForm.ShowDialog();
@@ -66,8 +65,15 @@ public partial class HashTableForm : Form
         {
             inputForm.DataSubmitted += (key, value) =>
             {
-                manager.Remove(key);
-                UpdateVisualization();
+                if (manager.Remove(key))
+                {
+                    ActionsListBox.Items.Insert(0, $"Element with key {key} has been removed");
+                    UpdateVisualization();
+                }
+                else
+                {
+                    MessageBox.Show("Element couldn't be deleted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             };
             inputForm.ShowDialog();
         }
@@ -76,24 +82,17 @@ public partial class HashTableForm : Form
     private void btnNextStep_Click(object sender, EventArgs e)
     {
         //Если текущее состояние - крайнее
-        if (manager.GetStateStorage().GetCurrentState().Equals(manager.GetStateStorage().Next()))
-        {
+        if (manager.GetStateStorage().Next().Equals(manager.GetStateStorage().GetLast()))
             btnNextStep.Enabled = false;
-            return;
-        }
         btnPreviousStep.Enabled = true;
         UpdateVisualization();
     }
 
     private void btnPreviousStep_Click(object sender, EventArgs e)
     {
-        //Если текущее состояние - первое
-        if (manager.GetStateStorage().GetCurrentState().Equals(manager.GetStateStorage().GetFirst()))
-        {
+        //Если сделав шаг назад, мы попадаем в первое состояние
+        if (manager.GetStateStorage().Previous().Equals(manager.GetStateStorage().GetFirst()))
             btnPreviousStep.Enabled = false;
-            return;
-        }
-        manager.GetStateStorage().Previous();
         btnNextStep.Enabled = true;
         UpdateVisualization();
     }
