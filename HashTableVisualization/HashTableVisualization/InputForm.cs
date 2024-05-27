@@ -32,7 +32,7 @@ public partial class InputForm : Form
     }
     private void btnSubmit_Click(object sender, EventArgs e)
     {
-        if ((isForInsert && string.IsNullOrEmpty(txtValue.Text)) || string.IsNullOrEmpty(txtKey.Text))
+        if ((isForInsert && string.IsNullOrEmpty(txtValue.Text)) || string.IsNullOrEmpty(txtKey.Text) || !int.TryParse(txtValue.Text, out _))
         {
             MessageBox.Show("The data is incorrect!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
